@@ -16,6 +16,7 @@ nodeJS
 - run the command node index.js [command] -u [url] or `npm run start [command] -u [url]`
 - eg `node index.js list -u https://pastebin.com/u/someones_pastebin` or `npm run start download -u https://pastebin.com/u/someones_pastebin`
     - you can specify an output directory, but if not specified, it'll just default to "output" and create it if it doesn't exist
+        - To use the output format, add the flag `-o [absolute path to output dir you want]`, for example on windows you might do something like this `pastebin-dl-win.exe download -u https://pastebin.com/u/some_pastebin -o "D:\path\to\output\dir"` 
     - each user's pastebin you specify will have a subdirectory created in the output directory
     - files with the same title will have the current time as a unix timestamp appended to the name to delineate different files
 
