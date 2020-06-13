@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
+const moment = require('moment');
 
 const command = 'download [url]'
 const desc = 'Download all files for repo at url [url]'
@@ -31,8 +32,9 @@ const handler = function (argv) {
     pasteDownloader.download();
 }
 
-const FILE_BLANK_RETURNS = `\n\n\n\n\n`;
+const FILE_BLANK_RETURNS = `\n\n\n`;
 const SLEEP_TIME = 5000;
+const PASTEBIN_DATE_FORMAT = 'dddd Do of MMMM YYYY hh:mm:ss A UTC';
 
 /**
  * slugify - just a helper function to make the filname safe
@@ -47,7 +49,12 @@ function slugify(str, allowUnicode){
         retStr = Buffer.from(str.normalize("NFKD"), 'ascii').toString('ascii');
     }
 
-    retStr = retStr.replace(/[^\w\s-\/\\\*\(\)]/g, '').trim().replace(/[\/\*\\\(\)]+/g, '_');
+    retStr = retStr.replace(/[^\w\s-\/\\\*\(\)\[\]:\.]/g, '')
+                .replace(/[\/\*\\]+/g, '-')
+                .replace(/[\(]+/g, '[')
+                .replace(/[\)]/g, ']')
+                .replace(/[:]/g, ' -')
+                .trim();
 
     return retStr;
 }
@@ -248,7 +255,7 @@ class DownloadPastes {
         } catch(e){
             console.log(`Error loading raw file ${fullPasteURL}, message: ${e.message}`)
         };
-        let headerInfo = `"${name}"\nBy: ${author}\n${authorUrl}\n${fullPasteURL}\n\nLast Edit: ${dateEdit}\nRetrieved: ${currentDate.toUTCString()}`;
+        let headerInfo = `${name}\nBy ${author}\n\n${authorUrl}\n${url}\n\nLast Edit: ${dateEdit}\nRetrieved: ${moment().format(PASTEBIN_DATE_FORMAT)}`;
         try{
             await writeToFilePromise(filename, dirPath, [headerInfo, FILE_BLANK_RETURNS, rawData.data])
         } catch(e){
@@ -304,12 +311,12 @@ class DownloadPastes {
         }
 
         // for testing purposes
-        // let dirPath = `./output/shukaku20`;
+        // let dirPath = `./output/notonefuck`;
 
         // if(!fs.existsSync(dirPath)){
         //     fs.mkdirSync(dirPath);
         // }
-        // this.downloadSinglePaste(dirPath, '/paUWkbTm');
+        // this.downloadSinglePaste(dirPath, '/qksvFYnB');
     }
 }
 
