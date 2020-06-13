@@ -3,13 +3,6 @@
 # Overview
 This just a quick 1-2 day project to write something that will be able to download the public pastes given a user's pastebin url.  None of this is unit tested, just ran through a few pastebins to see what I can do.  Also note that there is a default timeout of 5 seconds in between file downloads.  As I'm not paying for a pastebin pro account, I'm doing things such that I don't get IP banned/rate limited.  Yes, the downloads are synchronous and not async.  Yes, it's not ideal but hey, what else do you want?
 
-# Files
-index.js: main entry point
-src/commands/list.js: quick command to list out the public pastes
-src/commands/download.js: command that will find the public pastes and download them to an output directory
-package.json: the includes/dependencies
-README.MD
-
 # Languages/Tools used
 nodeJS
 
@@ -22,7 +15,7 @@ nodeJS
 - in a command line terminal, navigate to the directory containing the index.js file
 - run the command node index.js [command] -u [url] or `npm run start [command] -u [url]`
 - eg `node index.js list -u https://pastebin.com/u/someones_pastebin` or `npm run start download -u https://pastebin.com/u/someones_pastebin`
-    - you can specify an output directory, but if not specified, it'll just default to "output"
+    - you can specify an output directory, but if not specified, it'll just default to "output" and create it if it doesn't exist
     - each user's pastebin you specify will have a subdirectory created in the output directory
     - files with the same title will have the current time as a unix timestamp appended to the name to delineate different files
 
