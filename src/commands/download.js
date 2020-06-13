@@ -49,7 +49,8 @@ function slugify(str, allowUnicode){
         retStr = Buffer.from(str.normalize("NFKD"), 'ascii').toString('ascii');
     }
 
-    retStr = retStr.replace(/[^\w\s-\/\\\*\(\)\[\]:\.]/g, '')
+    retStr = retStr.replace(/[&]+/g, " and ")
+                .replace(/[^\w\s-\/\\\*\(\)\[\]:\.]/g, '')
                 .replace(/[\/\*\\]+/g, '-')
                 .replace(/[\(]+/g, '[')
                 .replace(/[\)]/g, ']')
